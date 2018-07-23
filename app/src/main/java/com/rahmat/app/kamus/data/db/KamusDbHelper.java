@@ -54,30 +54,29 @@ public class KamusDbHelper {
 
         cursor.close();
         return wordsList;
-
-
     }
-    public ArrayList<Words> getByName(String query, boolean isEnglish){
-        table = isEnglish ? DATABASE_TABLE_ENG : DATABASE_TABLE_ID;
-        ArrayList<Words> arrayList = new ArrayList<Words>();
-        Cursor cursor = database.query(table,null,null,null,null,null,_ID +" DESC",null);
+    public List<Words> getByName(String query, boolean isEnglish){
+        String TABLE = isEnglish ? DATABASE_TABLE_ENG : DATABASE_TABLE_ID;
+        List<Words> wordsList = new ArrayList<Words>();
+
+        String q = "SELECT * FROM"+ TABLE +" WHERE " + DbContract.ColumnWords.COLUMN_WORDS
+                +" LIKE '%" +query.trim()+ " '%";
+
+        Cursor cursor = database.rawQuery(q, null);
+
         cursor.moveToFirst();
-        Note note;
-        if (cursor.getCount()>0) {
-            do {
 
-                note = new Note();
-                note.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
-                note.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(TITLE)));
-                note.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(DESCRIPTION)));
-                note.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DATE)));
-
-                arrayList.add(note);
-                cursor.moveToNext();
-
-            } while (!cursor.isAfterLast());
+        if(cursor.moveToFirst()){
+            do{
+                Words words = new Words();
+                words.setId(cursor.getInt(cursor.getColumnIndex(DbContract.ColumnWords._ID)));
+                words.setWords(cursor.getString(cursor.getColumnIndex(DbContract.ColumnWords.COLUMN_WORDS)));
+                words.setTranslation(cursor.getString(cursor.getColumnIndex(DbContract.ColumnWords.COLUMN_TRANSLATE)));
+                wordsList.add(words);
+            }while(cursor.moveToNext());
         }
+
         cursor.close();
-        return arrayList;
+        return wordsList;
     }
 }
