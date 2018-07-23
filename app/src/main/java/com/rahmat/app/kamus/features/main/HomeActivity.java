@@ -1,18 +1,19 @@
-package com.rahmat.app.kamus;
+package com.rahmat.app.kamus.features.main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.rahmat.app.kamus.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements
+public class HomeActivity extends AppCompatActivity implements
         MaterialSearchBar.OnSearchActionListener{
 
     @BindView(R.id.toolbar)
