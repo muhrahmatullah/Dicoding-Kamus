@@ -8,6 +8,7 @@ public class Words implements Parcelable {
     String words;
     String translation;
 
+
     public int getId() {
         return id;
     }
