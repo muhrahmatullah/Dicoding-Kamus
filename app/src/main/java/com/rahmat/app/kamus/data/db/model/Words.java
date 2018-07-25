@@ -9,6 +9,11 @@ public class Words implements Parcelable {
     String translation;
 
 
+    public Words(String words, String translation) {
+        this.words = words;
+        this.translation = translation;
+    }
+
     public int getId() {
         return id;
     }

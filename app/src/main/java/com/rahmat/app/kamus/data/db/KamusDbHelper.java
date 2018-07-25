@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteStatement;
 import com.rahmat.app.kamus.data.db.model.Words;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
 public class KamusDbHelper {
@@ -46,7 +47,7 @@ public class KamusDbHelper {
         database.endTransaction();
     }
 
-    public void insertTransaction(Words words, boolean isEnglish){
+    public void insertTransaction(List<Words> wordsList, boolean isEnglish){
         String TABLE = isEnglish ? DATABASE_TABLE_ENG : DATABASE_TABLE_ID;
 
 
@@ -58,11 +59,12 @@ public class KamusDbHelper {
 
         SQLiteStatement stmt = database.compileStatement(q);
 
-        stmt.bindString(1, words.getWords());
-        stmt.bindString(2, words.getTranslation());
-        stmt.execute();
-        stmt.clearBindings();
-
+        for (Words word : wordsList) {
+            stmt.bindString(1, word.getWords());
+            stmt.bindString(2, word.getTranslation());
+            stmt.execute();
+            stmt.clearBindings();
+        }
         database.setTransactionSuccessful();
         database.endTransaction();
 
@@ -72,7 +74,7 @@ public class KamusDbHelper {
         String TABLE = isEnglish ? DATABASE_TABLE_ENG : DATABASE_TABLE_ID;
         List<Words> wordsList = new ArrayList<>();
 
-        String q = "SELECT * FROM"+ TABLE +" ORDER BY " + DbContract.ColumnWords.COLUMN_WORDS+" ASC";
+        String q = "SELECT * FROM "+ TABLE +" ORDER BY " + DbContract.ColumnWords.COLUMN_WORDS+" ASC";
 
         Cursor cursor = database.rawQuery(q, null);
 

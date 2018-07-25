@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements
         kamusDbHelper.open();
         listWords = kamusDbHelper.getAll(isEnglish);
         kamusDbHelper.close();
-
         adapter.setWordsList(listWords);
+        recyclerView.setAdapter(adapter);
 
     }
 
