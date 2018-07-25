@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 
 public class KamusListAdapter extends RecyclerView.Adapter<KamusListAdapter.ViewHolder>{
 
+    public static final String WORDS = "words";
     List<Words> wordsList = new ArrayList<>();
     Context context;
 
@@ -51,8 +52,7 @@ public class KamusListAdapter extends RecyclerView.Adapter<KamusListAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-
-        public static final String WORDS, words = "words";
+        
         @BindView(R.id.tv_word) TextView tv_word;
         @BindView(R.id.tv_mean) TextView tv_mean;
 
