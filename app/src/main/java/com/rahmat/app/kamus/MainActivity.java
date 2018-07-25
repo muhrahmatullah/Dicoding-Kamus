@@ -2,12 +2,21 @@ package com.rahmat.app.kamus;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.rahmat.app.kamus.adapter.KamusListAdapter;
+import com.rahmat.app.kamus.data.db.KamusDbHelper;
+import com.rahmat.app.kamus.data.db.model.Words;
+import com.rahmat.app.kamus.pref.KamusPreference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +27,17 @@ public class MainActivity extends AppCompatActivity implements
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+
+    KamusListAdapter adapter;
+    List<Words> listWords = new ArrayList<>();
+
+    KamusDbHelper kamusDbHelper;
+    KamusPreference kamusPreference;
+
+    boolean isEnglish = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +47,20 @@ public class MainActivity extends AppCompatActivity implements
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.kamus_name);
+
+        adapter = new KamusListAdapter(this);
+        kamusDbHelper = new KamusDbHelper(this);
+        kamusPreference = new KamusPreference(this);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false));
+
+        kamusDbHelper.open();
+        listWords = kamusDbHelper.getAll(isEnglish);
+        kamusDbHelper.close();
+
+        adapter.setWordsList(listWords);
+
     }
 
 
@@ -40,7 +74,13 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.change){
-            Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show();
+            if(isEnglish){
+                isEnglish = false;
+                Toast.makeText(this, ""+isEnglish, Toast.LENGTH_SHORT).show();
+            }else{
+                isEnglish = true;
+                Toast.makeText(this, ""+isEnglish, Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

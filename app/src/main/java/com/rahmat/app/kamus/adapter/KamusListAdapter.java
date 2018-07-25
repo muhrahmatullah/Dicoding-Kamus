@@ -30,7 +30,7 @@ public class KamusListAdapter extends RecyclerView.Adapter<KamusListAdapter.View
         this.context = context;
     }
 
-    void getWordsList(List<Words> wordsList){
+    public void setWordsList(List<Words> wordsList){
         this.wordsList = wordsList;
         notifyDataSetChanged();
     }
