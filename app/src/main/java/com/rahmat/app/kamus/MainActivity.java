@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.kamus_name);
+        getSupportActionBar().setSubtitle(getString(R.string.ing_indo));
 
         adapter = new KamusListAdapter(this);
         kamusDbHelper = new KamusDbHelper(this);
@@ -63,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    void setUpActionBar(boolean isEnglish){
+        if(isEnglish){
+            getSupportActionBar().setSubtitle(getString(R.string.ing_indo));
+        }else getSupportActionBar().setSubtitle(getString(R.string.indo_ing));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,11 +83,10 @@ public class MainActivity extends AppCompatActivity implements
         if (id == R.id.change){
             if(isEnglish){
                 isEnglish = false;
-                Toast.makeText(this, ""+isEnglish, Toast.LENGTH_SHORT).show();
             }else{
                 isEnglish = true;
-                Toast.makeText(this, ""+isEnglish, Toast.LENGTH_SHORT).show();
             }
+            setUpActionBar(isEnglish);
         }
         return super.onOptionsItemSelected(item);
     }

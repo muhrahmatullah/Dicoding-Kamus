@@ -79,11 +79,11 @@ public class SplashActivity extends AppCompatActivity {
             }else{
                 try {
                     synchronized (this) {
-                        this.wait(2000);
+                        this.wait(300);
 
                         publishProgress(50);
 
-                        this.wait(2000);
+                        this.wait(300);
                         publishProgress((int) maxprogress);
                     }
                 } catch (Exception e) {
