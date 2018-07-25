@@ -43,12 +43,12 @@ public class KamusListAdapter extends RecyclerView.Adapter<KamusListAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.bind(wordsList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return wordsList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
