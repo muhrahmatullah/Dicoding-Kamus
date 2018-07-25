@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import com.rahmat.app.kamus.data.db.model.Words;
 
@@ -14,7 +15,6 @@ public class KamusDbHelper {
 
     private static String DATABASE_TABLE_ID = DbContract.TABLE_NAME_ID;
     private static String DATABASE_TABLE_ENG = DbContract.TABLE_NAME_ENG;
-    private String table = "";
     private Context context;
     private DbHelper dbHelper;
 
@@ -32,6 +32,40 @@ public class KamusDbHelper {
 
     public void close(){
         dbHelper.close();
+    }
+
+    public void beginTransaction(){
+        database.beginTransaction();
+    }
+
+    public void setTransactionSuccess(){
+        database.setTransactionSuccessful();
+    }
+
+    public void endTransaction(){
+        database.endTransaction();
+    }
+
+    public void insertTransaction(Words words, boolean isEnglish){
+        String TABLE = isEnglish ? DATABASE_TABLE_ENG : DATABASE_TABLE_ID;
+
+
+        String q = "INSERT INTO " + TABLE + " (" +
+                DbContract.ColumnWords.COLUMN_WORDS + ", " +
+                DbContract.ColumnWords.COLUMN_TRANSLATE + ") VALUES (?, ?)";
+
+        database.beginTransaction();
+
+        SQLiteStatement stmt = database.compileStatement(q);
+
+        stmt.bindString(1, words.getWords());
+        stmt.bindString(2, words.getTranslation());
+        stmt.execute();
+        stmt.clearBindings();
+
+        database.setTransactionSuccessful();
+        database.endTransaction();
+
     }
 
     public List<Words> getAll(boolean isEnglish){
