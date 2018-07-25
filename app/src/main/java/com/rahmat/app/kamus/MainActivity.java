@@ -70,9 +70,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     void setUpActionBar(boolean isEnglish){
+        kamusDbHelper.open();
         if(isEnglish){
             getSupportActionBar().setSubtitle(getString(R.string.ing_indo));
-        }else getSupportActionBar().setSubtitle(getString(R.string.indo_ing));
+            listWords = kamusDbHelper.getAll(isEnglish);
+            adapter.setWordsList(listWords);
+        }else {
+            getSupportActionBar().setSubtitle(getString(R.string.indo_ing));
+            listWords = kamusDbHelper.getAll(isEnglish);
+            adapter.setWordsList(listWords);
+        }
+        kamusDbHelper.close();
     }
 
 
