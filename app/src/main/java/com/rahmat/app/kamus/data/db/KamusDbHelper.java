@@ -95,8 +95,8 @@ public class KamusDbHelper {
         String TABLE = isEnglish ? DATABASE_TABLE_ENG : DATABASE_TABLE_ID;
         List<Words> wordsList = new ArrayList<Words>();
 
-        String q = "SELECT * FROM"+ TABLE +" WHERE " + DbContract.ColumnWords.COLUMN_WORDS
-                +" LIKE '%" +query.trim()+ " '%";
+        String q = "SELECT * FROM "+ TABLE +" WHERE " + DbContract.ColumnWords.COLUMN_WORDS
+                +" LIKE '%" + query.trim() + "%'";
 
         Cursor cursor = database.rawQuery(q, null);
 
